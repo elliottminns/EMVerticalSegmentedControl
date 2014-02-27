@@ -16,23 +16,46 @@
 
 @implementation EMVerticalSegmentedControl
 
+- (id)init {
+    self = [super init];
+    
+    if (self) {
+        [self initialise];
+    }
+    
+    return self;
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    
+    if (self) {
+        [self initialise];
+    }
+    return self;
+}
+
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     
     if (self) {
-        self.selectedLayer = [CALayer layer];
-        [self.layer addSublayer:self.selectedLayer];
-        self.backgroundColor = [UIColor colorWithRed:233.0f/255.0f green:237.0f/255.0f blue:242.0f/255.0f alpha:1.0];
-        self.titleFont = [UIFont fontWithName:@"Avenir Book" size:13.5];
-        self.textColor = [UIColor colorWithRed:155.0f/255.0f green:173.0f/255.0f blue:176.0f/255.0 alpha:1.0];
-        self.selectedTextColor = [UIColor whiteColor];
-        self.textAlignment = NSTextAlignmentCenter;
-        self.selectedSegmentColor = [UIColor colorWithRed:21.0/255.0 green:163.0/255.0 blue:174.0/255.0 alpha:1.0];
-        self.cornerRadius = 4.0;
-        self.layer.masksToBounds = YES;
-        self.selectedLayer.backgroundColor = self.selectedSegmentColor.CGColor;
+        [self initialise];
     }
     return self;
+}
+
+- (void)initialise {
+    self.selectedLayer = [CALayer layer];
+    [self.layer addSublayer:self.selectedLayer];
+    self.backgroundColor = [UIColor colorWithRed:233.0f/255.0f green:237.0f/255.0f blue:242.0f/255.0f alpha:1.0];
+    self.titleFont = [UIFont fontWithName:@"Avenir Book" size:13.5];
+    self.textColor = [UIColor colorWithRed:155.0f/255.0f green:173.0f/255.0f blue:176.0f/255.0 alpha:1.0];
+    self.selectedTextColor = [UIColor whiteColor];
+    self.textAlignment = NSTextAlignmentCenter;
+    self.selectedSegmentColor = [UIColor colorWithRed:21.0/255.0 green:163.0/255.0 blue:174.0/255.0 alpha:1.0];
+    self.cornerRadius = 4.0;
+    self.layer.masksToBounds = YES;
+    self.selectedLayer.backgroundColor = self.selectedSegmentColor.CGColor;
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -140,6 +163,7 @@
 }
 
 - (void)setSectionTitles:(NSArray *)sectionTitles {
+    _sectionTitles = sectionTitles;
     if (self.superview) {
         [self setNeedsDisplay];
     }
