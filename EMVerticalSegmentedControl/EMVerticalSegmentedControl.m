@@ -104,44 +104,26 @@
     
 }
 
-- (void)setSelectedSegmentIndex:(NSInteger)index
-{
+- (void)setSelectedSegmentIndex:(NSInteger)index {
     [self setSelectedSegmentIndex:index animated:NO notify:NO];
 }
 
-- (void)setSelectedSegmentIndex:(NSUInteger)index animated:(BOOL)animated
-{
+- (void)setSelectedSegmentIndex:(NSUInteger)index animated:(BOOL)animated {
     [self setSelectedSegmentIndex:index animated:animated notify:NO];
 }
 
-- (void)setSelectedSegmentIndex:(NSUInteger)index animated:(BOOL)animated notify:(BOOL)notify
-{
+- (void)setSelectedSegmentIndex:(NSUInteger)index animated:(BOOL)animated notify:(BOOL)notify {
     _selectedSegmentIndex = index;
+    self.visibleSelectedSegmentIndex = index;
+    
+    if (notify) {
+        [self notifyForSegmentChangeToIndex:index];
+    }
     if (animated) {
-        
-        CGFloat segmentHeight = self.bounds.size.height / self.sectionTitles.count;
-        
-        // Get the rect of the current index.
-        CGFloat y = segmentHeight * self.visibleSelectedSegmentIndex;
-        CGRect currentRect = CGRectMake(0, y, self.bounds.size.width, segmentHeight);
-        
-        self.visibleSelectedSegmentIndex = index;
-        
-        y = segmentHeight * self.visibleSelectedSegmentIndex;
-        CGRect newRect = CGRectMake(0, y, self.bounds.size.width, segmentHeight);
-        
-        
         [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [self setNeedsDisplay];
-        } completion:^(BOOL finished) {
-
-        }];
-        
-        if (notify) {
-            [self notifyForSegmentChangeToIndex:index];
-        }
+        } completion:nil];
     } else {
-        self.visibleSelectedSegmentIndex = index;
         [self setNeedsDisplay];
     }
 }
@@ -171,8 +153,7 @@
 
 #pragma mark - Notifiers
 
-- (void)notifyForSegmentChangeToIndex:(NSInteger)index
-{
+- (void)notifyForSegmentChangeToIndex:(NSInteger)index {
     if (self.superview) {
         [self sendActionsForControlEvents:UIControlEventValueChanged];
     }
