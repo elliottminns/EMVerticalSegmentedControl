@@ -64,6 +64,14 @@
     
     // Work out the height of each section.
     CGFloat segmentHeight = rect.size.height / self.sectionTitles.count;
+
+    
+    for (NSInteger i = self.layer.sublayers.count - 1; i >= 0; i--) {
+        CALayer *sublayer = self.layer.sublayers[i];
+        if (sublayer != self.selectedLayer) {
+            [sublayer removeFromSuperlayer];
+        }
+    }
     
     [self.sectionTitles enumerateObjectsUsingBlock:^(id title, NSUInteger idx, BOOL *stop) {
         CGFloat y = segmentHeight * idx;
@@ -123,8 +131,6 @@
             [self setSelectedSegmentIndex:segment animated:YES notify:YES];
         }
     }
-    
-    
 }
 
 - (void)setSelectedSegmentIndex:(NSInteger)index {
